@@ -34,12 +34,14 @@ func reverseKGroup(head *ListNode, k int) *ListNode {
 	var sortedValues []int
 	// reverse each group
 	for i := range groups {
+		// reverse only groups that are in size k
 		if len(groups[i]) == k {
 			sortedValues = append(sortedValues, Reverse(groups[i])...)
 		} else {
 			sortedValues = append(sortedValues, groups[i]...)
 		}
 	}
+	// create the new list
 	newHead := &ListNode{Val: sortedValues[0]}
 	cur = newHead
 	for _, val := range sortedValues[1:] {
@@ -60,12 +62,13 @@ func Reverse(input []int) []int {
 	return output
 }
 
-func cutSlice(slice []int, size int) [][]int {
+//cutSlice cut slice into groups of size k.
+func cutSlice(slice []int, k int) [][]int {
 	var res [][]int
 	var start int
-	for start+size < len(slice) {
-		res = append(res, slice[start:start+size])
-		start += size
+	for start+k < len(slice) {
+		res = append(res, slice[start:start+k])
+		start += k
 	}
 	// add all the left overs that don't divide to k
 	if start < len(slice) {
